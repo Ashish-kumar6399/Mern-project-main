@@ -9,6 +9,7 @@ class BlogController {
       return res.status(400).json({message:error.message})
       
     }
+    // ashish
   };
   static addNewBlog =async(req,res) =>{
   const {title,description,category} = req.body;
