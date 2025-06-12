@@ -1,13 +1,31 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { Form, Button, Container } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const AddCategory = () => {
-  const [title, setTitle] = useState("");
+  const navigate = useNavigate(); // ✅ call the hook
+  const [input, setInput] = useState({
+    title: "",
+  });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Submit logic here (e.g., send to API)
-    console.log("Category Title:", title);
+
+    try {
+      const res = await axios.post("http://localhost:9000/api/v1/add/category", 
+        input,
+      {
+        headers:{
+          Authorization : `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+      );
+      alert(res.data.message);
+      navigate("/"); // ✅ will now work
+    } catch (error) {
+      alert(error.response?.data?.message || "Something went wrong");
+    }
   };
 
   return (
@@ -18,9 +36,10 @@ const AddCategory = () => {
           <Form.Label>Title</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Enter Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            name="title" // ✅ needed for onChange
+            placeholder="Enter Title name"
+            value={input.title}
+            onChange={(e) => setInput({ ...input, [e.target.name]: e.target.value })}
             required
           />
         </Form.Group>
@@ -35,4 +54,3 @@ const AddCategory = () => {
 };
 
 export default AddCategory;
-//         

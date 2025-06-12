@@ -20,9 +20,10 @@ const Register = () => {
     try {
       const res= await axios.post("http://localhost:9000/api/v1/user/register", input);
       alert(res.data.message || "Registration successful");
+             navigate("/login");    
+
     } catch (error) {
        alert(error.response.data.message || "Registration failed");  
-       navigate("/login");    
     }
   };
  
