@@ -1,7 +1,29 @@
-import React, { useState } from "react";
+import  { useState,useEffect } from "react";
+import axios from "axios";
 import { Form, Button, Container } from "react-bootstrap";
 
 const AddBlog = () => {
+  const [input, setInput] = useState({
+    title: "",
+    category: "",
+    description: "",
+  });
+  useEffect(() => {
+    const fetchAllcategories =async () =>{
+      const res = await axios.get("http://localhost:9000/api/v1/get/categories",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          }
+        }
+      );
+
+     setCategories(res.data)
+    }; fetchAllcategories();
+  }, []);
+
+  const[ categories, setCategories ] = useState([])
+
   const [formData, setFormData] = useState({
     title: "",
     category: "",

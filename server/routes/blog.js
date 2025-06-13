@@ -36,7 +36,7 @@ router.post("/add/blog",upload.single("thumbnail"), checkIsUserAuthenticated, Bl
 router.get("/get/blog/:id", checkIsUserAuthenticated, BlogController.getSingleBlog);
 
 router.get("/get/categories", checkIsUserAuthenticated, CategoryController.getAllCategories);
-router.post("/add/category", checkIsUserAuthenticated, CategoryController.addNewCategory)
+router.post("/add/category",  CategoryController.addNewCategory)
 
 
 

@@ -16,10 +16,12 @@ const AddCategory = () => {
       const res = await axios.post("http://localhost:9000/api/v1/add/category", 
         input,
       {
-        headers:{
-          Authorization : `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json"
+    }
+  }
+  
       );
       alert(res.data.message);
       navigate("/"); // ✅ will now work
