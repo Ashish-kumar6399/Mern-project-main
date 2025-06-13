@@ -1,27 +1,34 @@
 import  { useState,useEffect } from "react";
 import axios from "axios";
 import { Form, Button, Container } from "react-bootstrap";
+import {useNavigate } from "react-router-dom";
+
 
 const AddBlog = () => {
+
+  const navigate = useNavigate();
   const [input, setInput] = useState({
     title: "",
     category: "",
     description: "",
   });
   useEffect(() => {
-    const fetchAllcategories =async () =>{
-      const res = await axios.get("http://localhost:9000/api/v1/get/categories",
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          }
-        }
-      );
+  const fetchAllcategories = async () => {
+    try {
+      const res = await axios.get("http://localhost:9000/api/v1/get/categories", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      setCategories(res.data);
+    } catch (error) {
+      console.error("Error fetching categories:", error.message);
+    }
+  };
+  fetchAllcategories();
+}, []);
 
-     setCategories(res.data)
-    }; fetchAllcategories();
-  }, []);
-
+  const [file, setFile] = useState([]);
   const[ categories, setCategories ] = useState([])
 
   const [formData, setFormData] = useState({
@@ -39,10 +46,27 @@ const AddBlog = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+
+  const formdata = new FormData();
+    formdata.append("title", input.title);
+    formdata.append("category", input.category);
+    formdata.append("description", input.description);
+    formdata.append("thumbnail", file);
+    
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here (e.g., send to backend)
-    console.log(formData);
+
+    try {
+       const res = await axios.post("http://localhost:9000/api/v1/add/blog", 
+        formdata);
+        alert(res.data.message || "Blog added successfully!");
+        navigate("/");
+    } catch (error) {
+      console.error("Error adding blog:", error.response.data.message || error.message);
+      
+    }
+    
   };
 
   return (
@@ -55,20 +79,28 @@ const AddBlog = () => {
             type="text"
             placeholder="Blog Title"
             name="title"
-            onChange={handleChange}
+            value={input.title}
+            onChange={(e) => setInput({ ...input,[e.target.name]: e.target.value })}
             required
           />
         </Form.Group>
 
         <Form.Group controlId="formCategory" className="mb-3">
           <Form.Label>Category</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Category"
-            name="category"
-            onChange={handleChange}
-            required
-          />
+         
+          <select 
+  className="form-control"
+  name="category"
+  // value={formData.category}
+  //           onChange={(e) => setInput({ ...input,[e.target.name]: e.target.value })}
+  //           required
+>
+  <option disabled value="">Select category</option>
+  {categories.map((item) => (
+    <option key={item._id} value={item._id}>{item.title}</option>
+  ))}
+</select>
+
         </Form.Group>
 
         <Form.Group controlId="formDescription" className="mb-3">
@@ -78,7 +110,8 @@ const AddBlog = () => {
             rows={3}
             placeholder="Blog Description"
             name="description"
-            onChange={handleChange}
+            value={input.description}
+            onChange={(e) => setInput({ ...input,[e.target.name]: e.target.value })}
             required
           />
         </Form.Group>
@@ -89,7 +122,8 @@ const AddBlog = () => {
             type="file"
             name="thumbnail"
             accept="image/*"
-            onChange={handleChange}
+            onChange={(e) =>setFile(e.target.files[0])}
+            required
           />
         </Form.Group>
 

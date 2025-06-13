@@ -19,7 +19,7 @@ class BlogController {
         title:title,
         description:description,
         category:category,
-        thumbnail:req.file.filename,
+        thumbnail:`/uploads/${req.file.filename}`,
         user:req.user._id,
       })
 
