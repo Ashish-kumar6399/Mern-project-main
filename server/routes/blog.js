@@ -32,7 +32,7 @@ router.post("/user/login", AuthController.userLogin);
 //protected Routes
 
 router.get("/get/allblogs",  BlogController.getAllBlogs);
-router.post("/add/blog",upload.single("thumbnail"),  BlogController.addNewBlog);
+router.post("/add/blog",upload.single("thumbnail"),  BlogController.getAllBlogs);
 router.get("/get/blog/:id",  BlogController.getSingleBlog);
 
 router.get("/get/categories",  CategoryController.getAllCategories);
