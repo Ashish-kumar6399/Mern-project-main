@@ -1,7 +1,17 @@
 import React from "react";
+import { useState,useEffect } from "react";
+import axios from "axios";
 import { Card, Button, Container, Row, Col } from "react-bootstrap";
 
 const Home = () => {
+   const [blogs,setBlogs] =useState([]);
+  useEffect(()=>{
+    const fetchAllBlogs =async () =>{
+      consr 
+    };
+    fetchAllBlogs();
+  }, [])
+
   return (
     <Container className="mt-5">
       <h2 className="text-center mb-4">Latest posts</h2>

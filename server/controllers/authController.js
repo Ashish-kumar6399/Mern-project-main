@@ -48,9 +48,10 @@ class AuthController{
             )
             {
                 // genarte Token
-                const token = jwt.sign({ userID:isEmail._id },"pleasesubscribe",{
-                    expiresIn: "5d"
-                });
+               const token = jwt.sign({ userID:isEmail._id }, "pleaseSubscribe", {
+                                               // ✅ camelCase to match middleware
+  expiresIn: "5d"
+});
 
                 return res.status(200).json({
                     message: "Login Successfull",

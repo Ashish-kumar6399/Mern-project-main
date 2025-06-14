@@ -13,33 +13,48 @@ const AddBlog = () => {
   const [file, setFile] = useState(null);
   const [categories, setCategories] = useState([]);
 
-  // Fetch categories on component mount
+  // Fetch categories
+// Fetch categories
   useEffect(() => {
-    const fetchAllCategories = async () => {
-      try {
-        const res = await axios.get("http://localhost:9000/api/v1/get/categories", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-        setCategories(res.data);
-      } catch (error) {
-        console.error("Error fetching categories:", error.message);
-      }
-    };
-    fetchAllCategories();
-  }, []);
+  const fetchAllCategories = async () => {
+    try {
+      const res = await axios.get("http://localhost:9000/api/v1/get/categories", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      console.log("Fetched Categories from API:", res.data);
+      setCategories(res.data); // 👈 Make sure this matches your backend response
+    } catch (error) {
+      console.error("Error fetching categories:", error.message);
+    }
+  };
+  fetchAllCategories();
+  
+}, 
+[]);
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Create FormData object
+    
+
     const formdata = new FormData();
     formdata.append("title", input.title);
     formdata.append("category", input.category);
     formdata.append("description", input.description);
     formdata.append("thumbnail", file);
+
+
+    console.log("📤 Submitting Blog Data:");
+console.log("Title:", input.title);
+console.log("Category (should be _id):", input.category);
+console.log("Description:", input.description);
+console.log("File:", file);
+
+
+    const token = localStorage.getItem("token");
+    console.log("Token used in add/blog:", token);
 
     try {
       const res = await axios.post(
@@ -47,10 +62,11 @@ const AddBlog = () => {
         formdata,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
+      console.log("Add blog response:", res.data);
       alert(res.data.message || "Blog added successfully!");
       navigate("/");
     } catch (error) {
@@ -75,24 +91,32 @@ const AddBlog = () => {
         </Form.Group>
 
         <Form.Group controlId="formCategory" className="mb-3">
-          <Form.Label>Category</Form.Label>
-          <select
-            className="form-control"
-            name="category"
-            value={input.category}
-            onChange={(e) => setInput({ ...input, [e.target.name]: e.target.value })}
-            required
-          >
-            <option disabled value="">
-              Select category
-            </option>
-            {categories.map((item) => (
-              <option key={item._id} value={item._id}>
-                {item.title}
-              </option>
-            ))}
-          </select>
-        </Form.Group>
+  <Form.Label>Category</Form.Label>
+  <select
+    className="form-control"
+    name="category"
+    value={input.category}
+    onChange={(e) => setInput({ ...input, category: e.target.value })}
+    required
+  >
+    <option disabled value="">
+      Select category
+    </option>
+    {Array.isArray(categories) &&
+      categories.map((item) => {
+        if (!item || !item._id || !item.title) {
+          console.warn("Invalid category:", item);
+          return null;
+        }
+        return (
+          <option key={item._id} value={item._id}>
+            {item.title}
+          </option>
+        );
+      })}
+  </select>
+</Form.Group>
+
 
         <Form.Group controlId="formDescription" className="mb-3">
           <Form.Label>Description</Form.Label>
