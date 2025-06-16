@@ -31,7 +31,7 @@ router.post("/user/login", AuthController.userLogin);
 
 //protected Routes
 
-router.get("/get/allblogs",  BlogController.getAllBlogs);
+router.get("/get/allblogs", checkIsUserAuthenticated, BlogController.getAllBlogs);
 router.post("/add/blog", checkIsUserAuthenticated, upload.single("thumbnail"), BlogController.addNewBlog);
 router.get("/get/blog/:id",  BlogController.getSingleBlog);
 
