@@ -22,7 +22,7 @@ const Login = () => {
     // localStorage.setItem("username", res.data.username);
     localStorage.setItem("username", res.data.name);
 
-    Navigate("/");
+    Navigate("/home");
     console.log(res.data);
   }catch (error) {
       alert(error.response.data.message || "Login failed");
