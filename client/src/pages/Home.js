@@ -30,7 +30,7 @@ const Home = () => {
           <Card className="shadow-sm">
             <Card.Img
               variant="top"
-src={`http://localhost:9000/uploads/${item.thumbnail}`}
+              src={`http://localhost:9000${item.thumbnail}`}
               alt="Post Avatar"
               style={{ padding: "30px", objectFit: "contain", height: "200px" }}
             />
@@ -39,7 +39,7 @@ src={`http://localhost:9000/uploads/${item.thumbnail}`}
               <Card.Text>{item.description}</Card.Text>
 <Link to={`/blog/${item._id}`} className="btn btn-primary">Read More</Link>
             </Card.Body>
-          </Card>
+          </Card>  
         </Col>
           );
         })

@@ -21,7 +21,7 @@ export default function Navigation() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-between">
           <Nav className="mx-auto">
-            <Nav.Link className="text-white" href="/">Home</Nav.Link>
+            <Nav.Link className="text-white" href="/home">Home</Nav.Link>
             <Nav.Link className="text-white" href="/add-blog">Add Blog</Nav.Link>
             <Nav.Link className="text-white" href="/add-category">Add Category</Nav.Link>
           </Nav>

@@ -1,41 +1,56 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 export default function SingleBlog () {
+  const { id } = useParams();
   const [blogs, setBlogs] = useState([]);
 
   useEffect(() => {
-    fetch("/api/blogs")
-      .then((res) => res.json())
-      .then((data) => setBlogs(data))
-      .catch((err) => console.error("Failed to fetch blogs", err));
+   const fetchSingleBlog =async () =>{
+    const res =await axios.get(`http://localhost:9000/api/v1/get/blog/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+      
+    )
+    setBlogs(res.data); // Assuming the response is a single blog object
+   };
+    fetchSingleBlog();
   }, []);
 
   return (
-    <div className="max-w-7xl mx-auto py-10 px-4">
-      <h1 className="text-3xl font-bold mb-6 text-center">Latest Blogs</h1>
+    
+    <>
+    
+    <div className="container shadow my-3">
+      <div className="col-md-12 d-flex items-center justify-content-center">
+        <div className="row">
+          <h1>
+            {blogs.title}
 
-      {blogs.length === 0 ? (
-        <p className="text-center text-gray-500">No blogs found.</p>
-      ) : (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {blogs.map((blog) => (
-            <div
-              key={blog._id}
-              className="border rounded-lg shadow-sm overflow-hidden bg-white"
-            >
-              <img
-                src={`/uploads/${blog.image}`}
-                alt={blog.name}
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-4">
-                <h2 className="text-xl font-semibold mb-2">{blog.name}</h2>
-                <p className="text-gray-700">{blog.description}</p>
-              </div>
-            </div>
-          ))}
+          </h1>
+          <img
+            src={`http://localhost:9000${blogs.thumbnail}`}
+            alt="Blog Thumbnail"
+            className="img-fluid mb-3"
+            style={{ maxHeight: "400px", objectFit: "cover" }}
+          />
+          <p>
+            {blogs.description}
+          </p>
+          <button>
+            <a href="/home" className="btn btn-primary">
+              Back to Home
+            </a>
+          </button>
         </div>
-      )}
+
+      </div>
+
     </div>
+    </>
   );
 }
