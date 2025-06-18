@@ -18,7 +18,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res= await axios.post("http://localhost:9000/api/v1/user/register", input);
+      const res= await axios.post("https://mern-project-main-pyk3.vercel.app/api/v1/user/register", input);
       alert(res.data.message || "Registration successful");
              navigate("/login");    
 
