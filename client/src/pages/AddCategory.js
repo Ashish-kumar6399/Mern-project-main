@@ -13,7 +13,7 @@ const AddCategory = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:9000/api/v1/add/category", 
+      const res = await axios.post("https://mern-project-main-pyk3.vercel.app/api/v1/add/category", 
         input,
       {
     headers: {
