@@ -10,7 +10,7 @@ export default function SingleBlog() {
   useEffect(() => {
     const fetchSingleBlog = async () => {
       try {
-        const res = await axios.get(`http://localhost:9000/api/v1/get/blog/${id}`, {
+        const res = await axios.get(`https://mern-project-main-pyk3.vercel.app/api/v1/get/blog/${id}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
