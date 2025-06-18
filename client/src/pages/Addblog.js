@@ -18,7 +18,7 @@ const AddBlog = () => {
   useEffect(() => {
   const fetchAllCategories = async () => {
     try {
-      const res = await axios.get("http://localhost:9000/api/v1/get/categories", {
+      const res = await axios.get("https://mern-project-main-pyk3.vercel.app/api/v1/get/categories", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
