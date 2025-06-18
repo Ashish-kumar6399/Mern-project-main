@@ -39,7 +39,7 @@ const Home = () => {
               <Card className="h-100 shadow-sm border-0 rounded-4 card-hover">
                 <Card.Img
                   variant="top"
-                  src={`http://localhost:9000${item.thumbnail}`}
+                  src={`https://mern-project-main-pyk3.vercel.app/${item.thumbnail}`}
                   alt={item.title}
                   style={{ height: "300px", objectFit: "cover" }}
                   className="rounded-top-4"
