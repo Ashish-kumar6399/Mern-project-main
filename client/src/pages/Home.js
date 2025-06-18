@@ -10,7 +10,7 @@ const Home = () => {
   useEffect(() => {
     const fetchAllBlogs = async () => {
       try {
-        const res = await axios.get("http://localhost:9000/api/v1/get/allblogs", {
+        const res = await axios.get("https://mern-project-main-pyk3.vercel.app/api/v1/get/allblogs", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
