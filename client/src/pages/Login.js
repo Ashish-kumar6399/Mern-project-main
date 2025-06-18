@@ -16,7 +16,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:9000/api/v1/user/login", input); 
+      const res = await axios.post("https://mern-project-main-pyk3.vercel.app/api/v1/user/login", input); 
     alert(res.data.message || "Login successful");
     localStorage.setItem("token", res.data.token);
     // localStorage.setItem("username", res.data.username);
